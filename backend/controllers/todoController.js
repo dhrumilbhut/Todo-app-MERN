@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Importing model
 const Todo = require("../models/todo");
 
