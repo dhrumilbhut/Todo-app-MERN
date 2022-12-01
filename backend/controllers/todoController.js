@@ -247,6 +247,54 @@ exports.getTodo = async (req, res) => {
   }
 };
 
+// Search todo
+exports.searchTodo = async (req, res) => {
+  try {
+    const { searchQuery } = req.query;
+    // If no query entered
+    if (!searchQuery) {
+      throw new Error("Search value  is required to fetch the todos");
+    } else {
+      // if query exists, send filtered data as per query(title of todo)
+      const todo = await Todo.find({
+        $or: [
+          { title: new RegExp(searchQuery, "i") },
+          { tasks: new RegExp(searchQuery, "i") },
+        ],
+      });
+      // if no data found
+      if (todo.length === 0) {
+        // return whole data
+        const todo = await Todo.find();
+        // send response
+        return res.status(200).json({
+          status: "Fail",
+          message: "Displaying all Todos",
+          results: todo.length,
+          data: {
+            todo,
+          },
+        });
+      }
+      // else send the matched todo
+      return res.status(200).json({
+        status: "success",
+        results: todo.length,
+        data: {
+          todo,
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    // send the error response
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // Home page
 exports.home = async (req, res) => {
   res.status(201).send("Welcome to homepage");

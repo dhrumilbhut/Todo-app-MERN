@@ -12,6 +12,7 @@ const {
   getTodos,
   getTodo,
   home,
+  searchTodo,
 } = require("../controllers/todoController");
 
 // Home routes
@@ -24,5 +25,6 @@ router.delete("/api/v1/deleteTodo/:todoId", deleteTodo);
 router.delete("/api/v1/deleteTodoTask/:todoId", deleteTodoTask);
 router.put("/api/v1/editTodo/:todoId", editTodo);
 router.put("/api/v1/editTask/:todoId", editTask);
+router.get("/api/v1/searchTodo", searchTodo);
 
 module.exports = router;
